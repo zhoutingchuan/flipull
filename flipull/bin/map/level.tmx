@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="20" height="16" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="background" tilewidth="32" tileheight="32">
+  <image source="background.jpg" width="72" height="72"/>
+ </tileset>
+ <tileset firstgid="5" name="wall" tilewidth="32" tileheight="32">
+  <image source="wall.jpg" width="66" height="66"/>
+  <tile id="0">
+   <properties>
+    <property name="pass" value="false"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="pass" value="false"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="pass" value="false"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="pass" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="9" name="ladder" tilewidth="32" tileheight="64">
+  <image source="ladder.jpg" width="32" height="64"/>
+ </tileset>
+ <tileset firstgid="10" name="kanban" tilewidth="32" tileheight="32">
+  <image source="kanban.jpg" width="131" height="97"/>
+ </tileset>
+ <tileset firstgid="22" name="scorebanner" tilewidth="32" tileheight="32">
+  <image source="scorebanner.png" width="68" height="34"/>
+ </tileset>
+ <tileset firstgid="24" name="background_shadow" tilewidth="32" tileheight="32">
+  <image source="background_shadow.png" width="72" height="72"/>
+ </tileset>
+ <tileset firstgid="28" name="background_shadow_frame" tilewidth="32" tileheight="32">
+  <image source="background_shadow_frame.png" width="72" height="72"/>
+ </tileset>
+ <tileset firstgid="32" name="background_shaow_left" tilewidth="32" tileheight="32">
+  <image source="background_shaow_left.jpg" width="72" height="72"/>
+ </tileset>
+ <tileset firstgid="36" name="background_shadow_top" tilewidth="32" tileheight="32">
+  <image source="background_shadow_top.png" width="72" height="72"/>
+ </tileset>
+ <layer name="background" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYARiJirRLEDMDMT8BDBMHT4alz0yQKwKxCoEaHR92OyRJsId+Ghk8yWoGH6Uugs5/GSoHL9KFLoL3X0Ko+6jKP1Ry30wc4e7+5DNAwDtdwZE
+  </data>
+ </layer>
+ <layer name="wall" width="20" height="16">
+  <data encoding="base64" compression="zlib">
+   eJytkzsOwCAMQ71Q6NJ/e/+j1gxIGUILIZbewPJkKyIAmEgQTANEksjzQ2qk9JHv1gSF0q/XNZODrGQju3D2uqTvJBe5Rb9eV4m21+qq7Y1GH6DvHelXu681C/T7Wvt57gV89+Z+nntzvO/79T+8eAHw+QXN
+  </data>
+ </layer>
+</map>

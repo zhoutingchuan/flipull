@@ -1,0 +1,12 @@
+
+egg.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+egg
+  rotate: true
+  xy: 2, 2
+  size: 28, 36
+  orig: 34, 40
+  offset: 3, 0
+  index: -1
