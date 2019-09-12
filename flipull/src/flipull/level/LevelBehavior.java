@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import flipull.action.JumpAction;
 import flipull.actor.BlockGroup;
 import flipull.actor.BlocksHolder;
 import flipull.actor.Egg;
@@ -61,10 +60,7 @@ public class LevelBehavior
         
         level.getTimeLeftNumLabel().pause();
         gameWinTimer.start();
-        
-        JumpAction jumpAction = new JumpAction(egg.getState(), egg.getSkeleton());
-        jumpAction.start();
-        egg.addAction(jumpAction);
+        egg.jump();
 
         gameWinMusic.play();
         group.boom();

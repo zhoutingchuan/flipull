@@ -2,21 +2,15 @@ package flipull.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.esotericsoftware.spine.AnimationState;
-import com.esotericsoftware.spine.AnimationStateData;
-import com.esotericsoftware.spine.Skeleton;
-import com.esotericsoftware.spine.SkeletonData;
-import com.esotericsoftware.spine.SkeletonJson;
-import com.esotericsoftware.spine.SkeletonRenderer;
 
 import flipull.actor.behavior.EggMovingDownBehavior;
 import flipull.actor.behavior.EggMovingUpBehavior;
 import flipull.actor.behavior.MovingBehavior;
 import flipull.animation.EggMoveAnimation;
-import flipull.constant.GameConstant;
+import flipull.animation.EggWinAnimation;
+import flipull.timer.GameTimer;
 
 /**
  * Created by ztc on 2015/6/22.
@@ -38,13 +32,13 @@ public class Egg extends Actor
     
     private int startY;
     
-    private SkeletonRenderer renderer;
+    private TextureRegion currentFrame;
+
+    private GameTimer jumpTimer;
+
+    private boolean isJumping = false;
     
-    private TextureAtlas atlas;
-    
-    private Skeleton skeleton;
-    
-    private AnimationState state;
+    private EggWinAnimation eggWinAnimation;
     
     public Egg(int x, int y)
     {
@@ -58,55 +52,43 @@ public class Egg extends Actor
         movingDownBehavior = new EggMovingDownBehavior(this);
         
         eggMoveAnimation = EggMoveAnimation.getInstance();
+        eggWinAnimation = EggWinAnimation.getInstance();
         
-        renderer = new SkeletonRenderer();
-        renderer.setPremultipliedAlpha(true); // PMA results in correct blending without outlines.
-        
-        atlas = new TextureAtlas(Gdx.files.internal("spine/egg/jump/egg.atlas"));
-        SkeletonJson json = new SkeletonJson(atlas); // This loads skeleton JSON data, which is stateless.
-        json.setScale(1f); // Load the skeleton at 60% the size it was in Spine.
-        SkeletonData skeletonData = json.readSkeletonData(Gdx.files.internal("spine/egg/jump/egg.json"));
-        
-        skeleton = new Skeleton(skeletonData); // Skeleton holds skeleton state (bone positions, slot attachments, etc).
-        skeleton.setPosition(x, y);
-        
-        AnimationStateData stateData = new AnimationStateData(skeletonData); // Defines mixing (crossfading) between
-                                                                             // animations.
-        
-        state = new AnimationState(stateData); // Holds the animation state for a skeleton (current animation, time,
-                                               // etc).
-        state.setTimeScale(1.5f); // Slow all animations down to 50% speed.
-        
-        // Queue animations on track 0.
-        state.setAnimation(0, "animation", false);
-        state.addAnimation(0, "animation", false, 0);
+        jumpTimer = new GameTimer(3000);
     }
     
     public void draw(Batch batch, float parentAlpha)
     {
         stateTime += Gdx.graphics.getDeltaTime();
         
-        // if (isMoving)
-        // {
-        // currentFrame = eggMoveAnimation.getAnimation().getKeyFrame(stateTime, true);
-        // }
-        // else
-        // {
-        // currentFrame = eggMoveAnimation.getAnimation().getKeyFrame(0, true);
-        // }
-        //
-        state.apply(skeleton); // Poses skeleton using current animations. This sets the bones' local SRT.
-        skeleton.updateWorldTransform(); // Uses the bones' local SRT to compute their world SRT.
-        PolygonSpriteBatch polygonSpriteBatch = (PolygonSpriteBatch)batch;
+        if (isMoving)
+        {
+            currentFrame = eggMoveAnimation.getAnimation().getKeyFrame(stateTime, true);
+        }
+        else
+        {
+            currentFrame = eggMoveAnimation.getAnimation().getKeyFrame(0, true);
+        }
         
-        // spine绘制后会改变batch的混合属性，绘制完再改回来
-        int blendSrc = polygonSpriteBatch.getBlendSrcFunc();
-        int blendDst = polygonSpriteBatch.getBlendDstFunc();
+        if(jumpTimer.timeEnd())
+        {
+            isJumping = false;
+        }
         
-        renderer.draw(polygonSpriteBatch, skeleton); // Draw the skeleton images.
+        if(isJumping)
+        {
+            currentFrame = eggWinAnimation.getAnimation().getKeyFrame(stateTime, true);
+        }
         
-        polygonSpriteBatch.setBlendFunction(blendSrc, blendDst);
+        batch.draw(currentFrame, this.getX(), this.getY());
     }
+    
+    public void jump()
+    {
+        jumpTimer.start();
+        this.isJumping = true;
+    }
+    
     
     public void positionReset()
     {
@@ -129,19 +111,10 @@ public class Egg extends Actor
         return isMoving;
     }
     
-    public AnimationState getState()
-    {
-        return state;
-    }
     
     public void setMoving(boolean isMoving)
     {
         this.isMoving = isMoving;
-    }
-    
-    public Skeleton getSkeleton()
-    {
-        return skeleton;
     }
     
 }

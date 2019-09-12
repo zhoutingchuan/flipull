@@ -59,9 +59,9 @@ public interface GameConstant
     interface Egg
     {
         
-        int EGG_X = 464;
+        int EGG_X = 448;
         
-        int EGG_Y = 52;
+        int EGG_Y = 32;
         
         float EGG_MOVE_STEP = 32;
         
